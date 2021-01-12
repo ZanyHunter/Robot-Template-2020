@@ -1,19 +1,12 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.misc.ControlChooser;
-import frc.robot.misc.SensorReset;
-import frc.robot.misc.SmartDashboardInterface;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -25,9 +18,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-  private ControlChooser m_controlChooser;
-  private SmartDashboardInterface m_smartDashboardInterface;
-  private SensorReset m_sensorReset;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -38,20 +28,14 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_controlChooser = new ControlChooser();
-    m_smartDashboardInterface = new SmartDashboardInterface();
-    m_sensorReset = new SensorReset();
-    
-    m_smartDashboardInterface.SmartDashboardInit();
-    m_sensorReset.ResetSensors();
   }
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
    * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+   * SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
@@ -60,30 +44,19 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    m_smartDashboardInterface.SmartDashboardPeriodic();
-
-    //Resets sensors when driver presses Shuffleboard button
-    if(SmartDashboard.getBoolean("Reset Sensors", false)) m_sensorReset.ResetSensors();
   }
 
-  /**
-   * This function is called once each time the robot enters Disabled mode.
-   */
+  /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {
-  }
+  public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {
-  }
+  public void disabledPeriodic() {}
 
-  /**
-   * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
-   */
+  /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    m_controlChooser.ControlInit(SmartDashboardInterface.controlType.getSelected());
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -91,13 +64,9 @@ public class Robot extends TimedRobot {
     }
   }
 
-  /**
-   * This function is called periodically during autonomous.
-   */
+  /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-    m_controlChooser.ControlSafety(SmartDashboardInterface.controlType.getSelected());
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {
@@ -108,16 +77,11 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_controlChooser.ControlInit(SmartDashboardInterface.controlType.getSelected());
   }
 
-  /**
-   * This function is called periodically during operator control.
-   */
+  /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    m_controlChooser.ControlSafety(SmartDashboardInterface.controlType.getSelected());
-  }
+  public void teleopPeriodic() {}
 
   @Override
   public void testInit() {
@@ -125,10 +89,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
   }
 
-  /**
-   * This function is called periodically during test mode.
-   */
+  /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {
-  }
+  public void testPeriodic() {}
 }
